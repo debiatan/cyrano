@@ -1,0 +1,17 @@
+Cyrano provides a Python interface to control an Arduino Duemilanove device via a serial connection.
+
+Instructions of use (Debian/Ubuntu):
+====================================
+
+- Writing the firmware:
+    Install the following packages: gcc-avr avr-libc binutils-avr avrdude
+
+    Run 'make' to generate the file 'cyrano.hex'
+    Connect the arduino via USB. Normally, it will be assigned the device identifier '/dev/ttyUSB0'.
+    Press the reset button in the Duemilanove and quickly run 'make upload' (the timing is important in this one, since the device will only wait for around half a second for the .hex image to be uploaded).
+
+- Accessing it from python
+    (WIP)
+
+- License
+    See COPYING
