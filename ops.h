@@ -6,27 +6,26 @@
 #include <string.h>
 
 typedef unsigned char uchar;
-typedef void (*fp)(void);
+typedef unsigned int uint;
 
+//typedef enum{LIST_OPS=0, PIN_MODE=1, DIGITAL_WRITE=2, DIGITAL_READ=3} OpType;
+const uint LIST_OPS = 0;
+
+/*
 typedef struct opdesc_t OpDesc;
 struct opdesc_t{
     char* name;
     uchar code;
     fp function;
 };
-
-void build_opdesc(OpDesc* opdesc, const char* name, uchar code, fp function){
-    opdesc->name = (char*) malloc((strlen(name)+1)*sizeof(char));
-    strcpy(opdesc->name, name);
-    opdesc->code = code;
-    opdesc->function = function;
-}
+*/
 
 void list_ops(){
     digitalWrite(13, HIGH);   // sets the LED on
     Serial.write('l');
 }
 
+/*
 OpDesc* ops(){
     OpDesc* opdescs = (OpDesc*) malloc(sizeof(OpDesc)*4);
     build_opdesc(&opdescs[0], "listOps", 0, (fp)list_ops);
@@ -36,5 +35,6 @@ OpDesc* ops(){
 
     return opdescs;
 }
+*/
 
 #endif  // _OP_H

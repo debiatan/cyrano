@@ -13,7 +13,8 @@ class Pyrano:
         return "Arduino is on port %s at %d baudrate" %(self.serial.port, self.serial.baudrate)
 
     def listOps(self):
-        self.serial.write(chr(0))
+        for i in range(8):
+            self.serial.write(chr(0))
         #return self.serial.readline().replace("\r\n","")
         return self.serial.read()
 
