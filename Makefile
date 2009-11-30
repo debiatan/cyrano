@@ -181,7 +181,7 @@ extcoff: $(TARGET).elf
 	$(NM) -n $< > $@
 
 	# Link: create ELF output file from library.
-$(TARGET).elf: $(TARGET).cc core.a 
+$(TARGET).elf: $(TARGET).cc core.a ops.h
 	$(CXX) $(ALL_CXXFLAGS) -o $@ $(TARGET).cc -L. core.a $(LDFLAGS)
 
 core.a: $(OBJ)

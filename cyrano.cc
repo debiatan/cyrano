@@ -1,5 +1,8 @@
 #include "WProgram.h"
 extern "C" void __cxa_pure_virtual() {}  // Bug in avr-libc ??
+
+#include "ops.h"
+
 #if 0
 // variable to store the data from the serial port
 int cmd = 0;
@@ -118,17 +121,41 @@ int convert_hex_to_int(char c)
 
 const int LED = 13;
 
+void call(int cmd, int args[3]){    
+}
+
+// use a union structure to read bytes and store them
+// from the python side of things, use the struct library
+
 int main(void) {
 	init();
 //	setup();
+    Serial.begin(115200);
+
     pinMode(LED, OUTPUT);
-    
+
+    OpDesc* opdescs = ops();
+
+    int cmd;  // or word ??
+    int args[3];  // or word ??
+
 	while(1){
+        if(Serial.available()>0){
+            cmd = int(Serial.read());
+            for(int i = 0; i<3; ++i)
+              args[i] = int(Serial.read());
+
+            call(cmd, args);    // process char[] replay
+        }
+    }
+
+
+#if 0
         digitalWrite(LED, HIGH);   // sets the LED on
         delay(1000);                  // waits for a second
         digitalWrite(LED, LOW);    // sets the LED off
         delay(1000);
-    }
+#endif
         
 	return 0;
 }
