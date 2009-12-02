@@ -16,7 +16,8 @@ class Pyrano:
         for i in range(8):
             self.serial.write(chr(0))
         #return self.serial.readline().replace("\r\n","")
-        return self.serial.read()
+        return self.serial.readline()
+    #return self.serial.read()
 
     def output(self, pinArray):
         self.__sendData(len(pinArray))

@@ -6,23 +6,14 @@
 #include <string.h>
 
 typedef unsigned char uchar;
-typedef unsigned int uint;
+typedef unsigned short int uint;
 
-//typedef enum{LIST_OPS=0, PIN_MODE=1, DIGITAL_WRITE=2, DIGITAL_READ=3} OpType;
-const uint LIST_OPS = 0;
+typedef enum{LIST_OPS=0, PIN_MODE=1, DIGITAL_WRITE=2, DIGITAL_READ=3} OpType;
 
-/*
-typedef struct opdesc_t OpDesc;
-struct opdesc_t{
-    char* name;
-    uchar code;
-    fp function;
-};
-*/
 
 void list_ops(){
     digitalWrite(13, HIGH);   // sets the LED on
-    Serial.write('l');
+    Serial.write("l\n");
 }
 
 /*
