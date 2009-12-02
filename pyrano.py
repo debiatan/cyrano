@@ -2,6 +2,11 @@
 
 import serial, time
 
+INPUT = 0
+OUTPUT = 1
+LOW = 0
+HIGH = 1
+
 class Pyrano:
 
     __OUTPUT_PINS = -1
@@ -12,12 +17,40 @@ class Pyrano:
     def __str__(self):
         return "Arduino is on port %s at %d baudrate" %(self.serial.port, self.serial.baudrate)
 
-    def listOps(self):
-        for i in range(8):
-            self.serial.write(chr(0))
-        #return self.serial.readline().replace("\r\n","")
-        return self.serial.readline()
-    #return self.serial.read()
+# from the python side of things, use the struct library
+
+    def pinMode(self, pin, mode):
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        self.serial.write(chr(pin))
+        self.serial.write(chr(0))
+        self.serial.write(chr(mode))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        return self.serial.read()+self.serial.read()
+
+    def digitalRead(self, pin):
+        self.serial.write(chr(0))
+        self.serial.write(chr(1))
+        self.serial.write(chr(0))
+        self.serial.write(chr(pin))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        return self.serial.read()+self.serial.read()
+
+    def digitalWrite(self, pin, value):
+        self.serial.write(chr(0))
+        self.serial.write(chr(2))
+        self.serial.write(chr(0))
+        self.serial.write(chr(pin))
+        self.serial.write(chr(0))
+        self.serial.write(chr(value))
+        self.serial.write(chr(0))
+        self.serial.write(chr(0))
+        return self.serial.read()+self.serial.read()
 
     def output(self, pinArray):
         self.__sendData(len(pinArray))
