@@ -35,10 +35,6 @@ void write_word(uint value){
     Serial.write((uchar)(value%256));
 }
 
-uint call(uint cmd, uint args[3]){
-    return (functions[cmd])(args[0], args[1], args[2]);
-}
-
 int main(void) {
 	init();
     Serial.begin(115200);

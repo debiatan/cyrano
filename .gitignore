@@ -3,3 +3,5 @@
 *.swp
 kk*
 *.pyc
+*.elf
+*.hex

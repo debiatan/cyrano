@@ -45,4 +45,8 @@ int n_args[] = {
     /*pin_mode*/ 2, /*digital_read*/ 1, /*digital_write*/ 2
 };
 
+inline uint call(uint cmd, uint args[3]){
+    return (functions[cmd])(args[0], args[1], args[2]);
+}
+
 #endif  // _OPS_H
