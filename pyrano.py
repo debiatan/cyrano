@@ -1,6 +1,19 @@
 #!/usr/bin/env python
+# Copyright (c) 2009 Miguel Lechon
+# 
+#This file is part of Cyrano. Cyrano is free software: you can redistribute it
+#and/or modify it under the terms of the GNU General Public License as published
+#by the Free Software Foundation, either version 3 of the License, or (at your 
+#option) any later version.
+#
+#Cyrano is distributed in the hope that it will be useful, but WITHOUT ANY 
+#WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+#PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License along with 
+#Cyrano. If not, see <http://www.gnu.org/licenses/>.
 
-import serial, time
+import serial
 
 INPUT = 0
 OUTPUT = 1
@@ -8,117 +21,39 @@ LOW = 0
 HIGH = 1
 
 class Pyrano:
-
-    __OUTPUT_PINS = -1
-
+    __PIN_MODE = 0
+    __DIGITAL_READ = 1
+    __DIGITAL_WRITE = 2
     def __init__(self, port, baudrate=115200):
         self.serial = serial.Serial(port, baudrate)
 
-    def __str__(self):
-        return "Arduino is on port %s at %d baudrate" %(self.serial.port, self.serial.baudrate)
+    def __read_word(self):
+        return ord(self.serial.read())*256 + ord(self.serial.read())
 
-# from the python side of things, use the struct library
+    def __write_word(self, value):
+        self.serial.write(chr(value/256))
+        self.serial.write(chr(value%256))
+
+    def __write_words(self, values):
+        for value in values:
+            self.__write_word(value)
 
     def pinMode(self, pin, mode):
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        self.serial.write(chr(pin))
-        self.serial.write(chr(0))
-        self.serial.write(chr(mode))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        return self.serial.read()+self.serial.read()
+        self.__write_words([self.__PIN_MODE,pin,mode])
+        return self.__read_word()
 
     def digitalRead(self, pin):
-        self.serial.write(chr(0))
-        self.serial.write(chr(1))
-        self.serial.write(chr(0))
-        self.serial.write(chr(pin))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        return self.serial.read()+self.serial.read()
+        self.__write_words([self.__DIGITAL_READ,pin])
+        return self.__read_word()
 
     def digitalWrite(self, pin, value):
-        self.serial.write(chr(0))
-        self.serial.write(chr(2))
-        self.serial.write(chr(0))
-        self.serial.write(chr(pin))
-        self.serial.write(chr(0))
-        self.serial.write(chr(value))
-        self.serial.write(chr(0))
-        self.serial.write(chr(0))
-        return self.serial.read()+self.serial.read()
-
-    def output(self, pinArray):
-        self.__sendData(len(pinArray))
-
-        if(isinstance(pinArray, list) or isinstance(pinArray, tuple)):
-            self.__OUTPUT_PINS = pinArray
-            for each_pin in pinArray:
-                self.__sendPin(each_pin)
-        return True
-
-    def setLow(self, pin):
-        self.__sendData('0')
-        self.__sendPin(pin)
-        return True
-
-    def setHigh(self, pin):
-        self.__sendData('1')
-        self.__sendPin(pin)
-        return True
-
-    def getState(self, pin):
-        self.__sendData('2')
-        self.__sendPin(pin)
-        return self.__formatPinState(self.__getData())
-
-    def analogWrite(self, pin, value):
-        self.__sendData('3')
-        hex_value = hex(value)[2:]
-        if(len(hex_value)==1):
-            self.__sendData('0')
-        else:
-            self.__sendData(hex_value[0])
-        self.__sendData(hex_value[1])
-        return True
-
-    def analogRead(self, pin, value):
-        self.__sendData('4')
-        return self.__getData()
-
-    def turnOff(self):
-        for each_pin in self.__OUTPUT_PINS:
-            self.setLow(each_pin)
-        return True
-
-    def __sendPin(self, pin):
-        pin_in_char = chr(pin+48)
-        self.__sendData(pin_in_char)
-
-    def __sendData(self, serial_data):
-        while(self.__getData()!="what"):
-            pass
-        self.serial.write(str(serial_data))
-
-    def __getData(self):
-        return self.serial.readline().replace("\r\n","")
-
-    def __formatPinState(self, pinValue):
-        if pinValue=='1':
-            return True
-        else:
-            return False
+        self.__write_words([self.__DIGITAL_WRITE,pin,value])
+        return self.__read_word()
 
     def close(self):
         self.serial.close()
         return True
 
     def __del__(self):
-        #close serial connection once program ends
-        #this fixes the problem of port getting locked or unrecoverable in some linux systems
         self.serial.close()
 

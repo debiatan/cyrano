@@ -1,3 +1,18 @@
+/* Copyright (c) 2009 Miguel Lechon */
+/* 
+This file is part of Cyrano. Cyrano is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or (at your 
+option) any later version.
+
+Cyrano is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with 
+Cyrano. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef _OPS_H
 #define _OPS_H
 
@@ -22,8 +37,12 @@ uint digital_write(uint pin, uint value, uint){
 
 typedef uint (*fp)(uint, uint, uint);
  
-fp functions[3] = {
+fp functions[] = {
     (fp)pin_mode, (fp)digital_read, (fp)digital_write
+};
+
+int n_args[] = {
+    /*pin_mode*/ 2, /*digital_read*/ 1, /*digital_write*/ 2
 };
 
 #endif  // _OPS_H
