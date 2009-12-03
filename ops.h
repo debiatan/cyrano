@@ -35,14 +35,30 @@ uint digital_write(uint pin, uint value, uint){
     return 0;
 }
 
+uint analog_reference(uint type){
+    analogReference(type);
+    return 0;
+}
+
+uint analog_read(uint pin){
+    return analogRead(pin);
+}
+
+uint analog_write(uint pin, uint value){
+    analogWrite(pin, value);
+    return 0;
+}
+
 typedef uint (*fp)(uint, uint, uint);
  
 fp functions[] = {
-    (fp)pin_mode, (fp)digital_read, (fp)digital_write
+    (fp)pin_mode, (fp)digital_read, (fp)digital_write,
+    (fp)analog_reference, (fp)analog_read, (fp)analog_write
 };
 
 int n_args[] = {
-    /*pin_mode*/ 2, /*digital_read*/ 1, /*digital_write*/ 2
+    /*pin_mode*/ 2, /*digital_read*/ 1, /*digital_write*/ 2,
+    /*analog_reference*/ 1, /*analog_read*/ 1, /*analog_write*/ 2
 };
 
 inline uint call(uint cmd, uint args[3]){

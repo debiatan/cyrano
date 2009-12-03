@@ -17,13 +17,22 @@ import serial
 
 INPUT = 0
 OUTPUT = 1
+
 LOW = 0
 HIGH = 1
+
+EXTERNAL = 0
+DEFAULT = 1
+INTERNAL = 3
 
 class Pyrano:
     __PIN_MODE = 0
     __DIGITAL_READ = 1
     __DIGITAL_WRITE = 2
+    __ANALOG_REFERENCE = 3
+    __ANALOG_READ = 4
+    __ANALOG_WRITE = 5
+
     def __init__(self, port, baudrate=115200):
         self.serial = serial.Serial(port, baudrate)
 
@@ -48,6 +57,18 @@ class Pyrano:
 
     def digitalWrite(self, pin, value):
         self.__write_words([self.__DIGITAL_WRITE,pin,value])
+        return self.__read_word()
+
+    def analogReference(self, type):
+        self.__write_words([self.__ANALOG_REFERENCE,type])
+        return self.__read_word()
+    
+    def analogRead(self, pin):
+        self.__write_words([self.__ANALOG_READ,pin])
+        return self.__read_word()
+    
+    def analogWrite(self, pin, value):
+        self.__write_words([self.__ANALOG_WRITE,pin,value])
         return self.__read_word()
 
     def close(self):
