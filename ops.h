@@ -35,16 +35,16 @@ uint digital_write(uint pin, uint value, uint){
     return 0;
 }
 
-uint analog_reference(uint type){
+uint analog_reference(uint type, uint, uint){
     analogReference(type);
     return 0;
 }
 
-uint analog_read(uint pin){
+uint analog_read(uint pin, uint, uint){
     return analogRead(pin);
 }
 
-uint analog_write(uint pin, uint value){
+uint analog_write(uint pin, uint value, uint){
     analogWrite(pin, value);
     return 0;
 }
