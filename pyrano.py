@@ -13,7 +13,7 @@
 #You should have received a copy of the GNU General Public License along with 
 #Cyrano. If not, see <http://www.gnu.org/licenses/>.
 
-import serial
+import serial, sys, termios
 
 INPUT = 0
 OUTPUT = 1
@@ -34,6 +34,8 @@ class Pyrano:
     __ANALOG_WRITE = 5
 
     def __init__(self, port, baudrate=115200):
+        if sys.platform.lower().count('linux') > 0:
+            pass # Find a way of turning of HUPCL in termios c_cflag
         self.serial = serial.Serial(port, baudrate)
 
     def __read_word(self):

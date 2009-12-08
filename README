@@ -1,17 +1,44 @@
-Cyrano provides a Python interface to control an Arduino Duemilanove device via a serial connection.
+Cyrano provides a Python interface to control the Arduino Duemilanove device via a serial connection.
 
 Instructions of use (Debian/Ubuntu):
 ====================================
 
-- Writing the firmware:
-    Install the following packages: gcc-avr avr-libc binutils-avr avrdude
+- Getting the firmware:
+    - From the cyrano webpage:
+      Go to 'http://github.com/debiatan/cyrano/downloads' and download the most
+      recent version of the file 'cyrano.hex'. Flash it with your favorite tool.
+      (To do it using avrdude, try 'avrdude -V -F -C /etc/avrdude.conf -p atmega328p -P /dev/ttyUSB0 -c stk500v1 -b 57600 -U flash:w:cyrano.hex').
 
-    Run 'make' to generate the file 'cyrano.hex'
-    Connect the arduino via USB. Normally, it will be assigned the device identifier '/dev/ttyUSB0'.
-    Press the reset button in the Duemilanove and quickly run 'make upload' (the timing is important in this one, since the device will only wait for around half a second for the .hex image to be uploaded).
+    - Building it from source:
+        - Getting the source:
+            - Through git:
+                Install the package git-core.
+                Run 'git clone git://github.com/debiatan/cyrano.git'.
+            - Through your web browser:
+                Visit 'http://github.com/debiatan/cyrano'
+                Click on 'download'.
+        - Building and flashing the firmware:
+            Install the following packages: gcc-avr avr-libc binutils-avr 
+                                            avrdude.
+            Run 'make' inside the 'cyrano' folder to generate the file 
+            'cyrano.hex'.
+            Connect the arduino via USB. Normally, it will be assigned the 
+            device identifier '/dev/ttyUSB0'.
+            Run 'make upload'. If you get a timeout, try pressing the reset 
+            button in the Duemilanove and quickly running 'make upload'.
 
-- Accessing it from python
-    (WIP)
+- Accessing the Duemilanove from python:
+    Install the package python-serial.
+    The 'Pyrano' class makes available to the user the calls:
+        - pinMode(pin, mode)
+        - digitalRead(pin)
+        - digitalWrite(pin, value)
+        - analogReference(type)
+        - analogRead(pin)
+        - analogWrite(pin, value)
+    They share the semantics described by the low-level arduino API:
+          http://arduino.cc/en/Reference/Extended
+    For an example of use, see the accompanying example 'test.py'.
 
 - License
     See COPYING
