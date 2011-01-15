@@ -2,6 +2,7 @@ Cyrano provides a Python interface to control the Arduino Duemilanove device via
 
 Instructions of use (Debian/Ubuntu):
 ====================================
+- Dependencies: gcc-avr, avr-libc, avrdude
 
 - Getting the firmware:
     - From the cyrano webpage:
