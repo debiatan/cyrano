@@ -39,7 +39,7 @@ while True:
     readout = arduino.analogRead(0)
     mV = (readout/1024.)*5000
     distance = (mV/9.8)*2.54
-    print readout, mV, 'mV', distance, 'cm'
+    print(readout, mV, 'mV', distance, 'cm')
     time.sleep(0.5)
 
 arduino.close()

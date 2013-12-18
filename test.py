@@ -21,10 +21,10 @@ arduino = Pyrano('/dev/ttyUSB0')
 
 time.sleep(2) # Device is reset on incoming connection; wait for cyrano to wake
 
-print 'Pin 13: ', arduino.digitalRead(13)   # Read digital 
+print('Pin 13: ', arduino.digitalRead(13))  # Read digital 
 arduino.pinMode(13, OUTPUT)
 arduino.digitalWrite(13, HIGH)              # Write digital 
-print 'Pin 13: ', arduino.digitalRead(13)   # Read digital
-print 'Pin 0:', arduino.analogRead(0)       # Read analog
+print('Pin 13: ', arduino.digitalRead(13))  # Read digital
+print('Pin 0:', arduino.analogRead(0))      # Read analog
 arduino.analogWrite(9, 100)                 # PWM output
 arduino.close()

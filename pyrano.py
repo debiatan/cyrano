@@ -13,7 +13,7 @@
 #You should have received a copy of the GNU General Public License along with 
 #Cyrano. If not, see <http://www.gnu.org/licenses/>.
 
-import serial, sys, termios
+import serial, sys#, termios
 
 INPUT = 0
 OUTPUT = 1
@@ -42,8 +42,8 @@ class Pyrano:
         return ord(self.serial.read())*256 + ord(self.serial.read())
 
     def __write_word(self, value):
-        self.serial.write(chr(value/256))
-        self.serial.write(chr(value%256))
+        self.serial.write(chr(value//256).encode())
+        self.serial.write(chr(value%256).encode())
 
     def __write_words(self, values):
         for value in values:
