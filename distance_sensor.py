@@ -31,11 +31,11 @@ arduino = Pyrano('/dev/ttyUSB0')
 time.sleep(2) # Device is reset on incoming connection; wait for cyrano to wake
 
 arduino.pinMode(13, OUTPUT)
+arduino.digitalWrite(13, HIGH)
+#arduino.digitalWrite(13, LOW) #to stop reading
 
 while True:
-    arduino.digitalWrite(13, HIGH)
     time.sleep(30/1000000)
-    arduino.digitalWrite(13, LOW)
     readout = arduino.analogRead(0)
     mV = (readout/1024.)*5000
     distance = (mV/9.8)*2.54

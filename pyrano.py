@@ -50,27 +50,27 @@ class Pyrano:
             self.__write_word(value)
 
     def pinMode(self, pin, mode):
-        self.__write_words([self.__PIN_MODE,pin,mode])
+        self.__write_words([self.__PIN_MODE, pin, mode])
         return self.__read_word()
 
     def digitalRead(self, pin):
-        self.__write_words([self.__DIGITAL_READ,pin])
+        self.__write_words([self.__DIGITAL_READ, pin])
         return self.__read_word()
 
     def digitalWrite(self, pin, value):
-        self.__write_words([self.__DIGITAL_WRITE,pin,value])
+        self.__write_words([self.__DIGITAL_WRITE, pin, value])
         return self.__read_word()
 
     def analogReference(self, type):
-        self.__write_words([self.__ANALOG_REFERENCE,type])
+        self.__write_words([self.__ANALOG_REFERENCE, type])
         return self.__read_word()
     
     def analogRead(self, pin):
-        self.__write_words([self.__ANALOG_READ,pin])
+        self.__write_words([self.__ANALOG_READ, pin])
         return self.__read_word()
     
     def analogWrite(self, pin, value):
-        self.__write_words([self.__ANALOG_WRITE,pin,value])
+        self.__write_words([self.__ANALOG_WRITE, pin, value])
         return self.__read_word()
 
     def close(self):
