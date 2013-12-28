@@ -38,10 +38,20 @@ class Pyrano:
             pass # Find a way of turning of HUPCL in termios c_cflag
         self.serial = serial.Serial(port, baudrate)
 
+        # python2 and python3 handle characters differently
+        if sys.version[0] == '2':
+            self.__write_word = self.__write_word_python2
+        else:
+            self.__write_word = self.__write_word_python3
+
     def __read_word(self):
         return ord(self.serial.read())*256 + ord(self.serial.read())
 
-    def __write_word(self, value):
+    def __write_word_python2(self, value):
+        self.serial.write(chr(value//256))
+        self.serial.write(chr(value%256))
+
+    def __write_word_python3(self, value):
         self.serial.write(chr(value//256).encode())
         self.serial.write(chr(value%256).encode())
 
